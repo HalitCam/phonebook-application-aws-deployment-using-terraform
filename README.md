@@ -6,7 +6,7 @@ The Phonebook Application aims to create a phonebook application in Python and d
 
 ## Problem Statement
 
-![Project](tf-phonebook.png)
+![Project](aws-infrastructure-diagram.svg)
 
 - Your company has recently started a project that aims to serve as phonebook web application. You and your colleagues have started to work on the project. Your teammates have developed the UI part the project as shown in the template folder and develop the coding part and they need your help to deploying the app in development environment.
 
@@ -68,55 +68,43 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
 ![Project_207](Security-Groups.png)
 
-  - The application should be created with new AWS resources.
+  - The Terraform configuration creates a dedicated VPC with CIDR `10.0.0.0/16` across three Availability Zones in `us-east-1`; it does not use the default VPC.
 
-  - Template should create Application Load Balancer with Auto Scaling Group of Amazon Linux 2 EC2 Instances within default VPC.
+  - Each Availability Zone has a public subnet (`10.0.10.0/24` through `10.0.12.0/24`) and a private subnet (`10.0.20.0/24` through `10.0.22.0/24`). Public subnets route internet traffic through an Internet Gateway. The private route table has no default route, and no NAT Gateway is configured.
 
-  - Application Load Balancer should be placed within a security group which allows HTTP (80) connections from anywhere.
+  - The internet-facing Application Load Balancer spans the public subnets. Its security group allows HTTP (TCP 80) from anywhere and forwards requests to the EC2 target group.
 
-  - EC2 instances should be placed within a different security group which allows HTTP (80) connections only from the security group of Application Load Balancer.
+  - The Auto Scaling Group runs EC2 instances in the public subnets. The web security group allows HTTP (TCP 80) from the ALB security group and SSH (TCP 22) from anywhere; restrict SSH ingress to trusted addresses before using this configuration in a production environment.
 
-  - The Auto Scaling Group should use a Launch Template in order to launch instances needed and should be configured to;
+  - The Auto Scaling Group uses a Launch Template and is configured with desired capacity `2`, minimum size `1`, maximum size `3`, a `300`-second health check grace period, and `ELB` health checks. A predictive scaling policy targets 70% CPU utilization.
 
-    - use all Availability Zones.
+  - The Launch Template selects the latest matching Amazon Linux 2023 x86_64 AMI, uses instance type `t3.small`, installs Python and Flask dependencies, retrieves the GitHub token from Systems Manager Parameter Store using an EC2 IAM role, clones this repository, and starts the Flask application.
 
-    - set desired capacity of instances to `2`
+  - RDS runs MySQL `8.4` on `db.t3.micro`. The database is not publicly accessible and uses a DB subnet group containing the three private subnets. It is configured as a single-AZ instance. The database security group allows MySQL (TCP 3306) only from the web security group.
 
-    - set minimum size of instances to `1`
-
-    - set maximum size of instances to `3`
-
-    - set health check grace period to `300 seconds`
-
-    - set health check type to `ELB`
-
-  - The Launch Template should be configured to;
-
-    - prepare Python Flask environment on EC2 instance,
-
-    - download the Phonebook Application code from Github repository,
-
-    - deploy the application on Flask Server.
-
-  - EC2 Instances type can be configured as `t3.small`.
-
-  - Instance launched by Terraform should be tagged `Web Server of Phonebook App`
-
-  - For RDS Database Instance;
-  
-    - Instance type can be configured as `db.t3.micro`
-
-    - Database engine can be `MySQL` with version of `8.0.19`.
-
-  - Phonebook Application Website URL should be given as output by Terraform, after the resources created.
+  - Route 53 creates the `phonebook.halitcloud.com` alias record (using the `hosted_zone_name` variable) pointing to the ALB. Terraform outputs the website URL and the ALB URL; both use HTTP.
 
 ## Project Skeleton 
 
 ```text
-002-tf-phonebook-web-application (folder)
+phonebook-application-aws-deployment-using-terraform (folder)
 |
-|----readme.md               # Given to the students (Definition of the project)
-|----main.tf                 # To be delivered by students (Terraform Configuration) 
+|----README.md
+|----vpc_subnets.tf          # VPC, public/private subnets and DB subnet group
+|----igw.tf                 # Internet Gateway
+|----route_table.tf         # Public/private route tables and subnet associations
+|----alb.tf                 # Application Load Balancer and listener
+|----targetgroup.tf         # ALB target group
+|----auto_scaling_group.tf  # Auto Scaling Group, scaling policy and target attachment
+|----launch_template.tf     # EC2 launch template and application bootstrap
+|----rds.tf                 # MySQL RDS instance
+|----sec-grp.tf             # ALB, web and database security groups
+|----iam_role_policy.tf     # EC2 role, policy and instance profile
+|----route53_record.tf      # Route 53 alias record
+|----data.tf                # AMI, account identity and hosted zone lookups
+|----variables.tf
+|----output.tf
+|----version.tf
 |----phonebook-app.py        # Given to the students (Python Flask Web Application)
 |----templates
         |----index.html      # Given to the students (HTML template)
@@ -126,7 +114,7 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
 ## Expected Outcome
 
-![Phonebook App Search Page](./search-snapshot.png)
+![Phonebook App Search Page](tf-phonebook.png)
 
 ### At the end of the project, following topics are to be covered;
 
@@ -209,14 +197,7 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
 - Customize the application by hard-coding your name for the `developer_name` variable within html templates.
 
-- Use AWS CLI commands to get subnet ids of the default VPCs.
-
-- Terraform configuration file can be splitted to multiple files like provider.tf, sec-gr.tf, outputs.tf etc.
-
-
-```bash
-aws ec2 describe-subnets --no-paginate --filters "Name=default-for-az,Values=true" | egrep "(VpcId)|(SubnetId)"
-```
+- The VPC, subnets, route tables, and security groups are created and managed by the Terraform files in this repository; the deployment does not require subnet IDs from a default VPC.
 
 ## Resources
 

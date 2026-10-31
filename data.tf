@@ -18,3 +18,7 @@ data "aws_ami" "web_server_ami" {
 }
 
 data "aws_caller_identity" "current" {}
+
+data "aws_route53_zone" "my_zone" {
+  name         = var.hosted_zone_name
+}

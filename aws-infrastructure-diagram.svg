@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200">
+  <defs>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#2874c6"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#21845b"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#8154b8"/>
+    </marker>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#637083"/>
+    </marker>
+    <style>
+      text { font-family: "Segoe UI", Arial, sans-serif; fill: #172b4d; }
+      .title { font-size: 34px; font-weight: 700; }
+      .subtitle { font-size: 17px; fill: #53657d; }
+      .section { font-size: 19px; font-weight: 700; }
+      .label { font-size: 16px; font-weight: 650; }
+      .detail { font-size: 13px; fill: #53657d; }
+      .tiny { font-size: 12px; fill: #53657d; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 2; }
+      .flow { fill: none; stroke: #2874c6; stroke-width: 3; marker-end: url(#arrow-blue); }
+      .data { fill: none; stroke: #21845b; stroke-width: 3; marker-end: url(#arrow-green); }
+      .control { fill: none; stroke: #8154b8; stroke-width: 2.5; stroke-dasharray: 8 6; marker-end: url(#arrow-purple); }
+      .route { fill: none; stroke: #637083; stroke-width: 2.5; stroke-dasharray: 7 6; marker-end: url(#arrow-gray); }
+    </style>
+  </defs>
+  <rect width="1800" height="1200" fill="#f5f8fc"/>
+
+  <text x="54" y="58" class="title">Phonebook Application - AWS Infrastructure</text>
+  <text x="56" y="88" class="subtitle">Terraform-defined deployment | us-east-1 | VPC 10.0.0.0/16 | 3 Availability Zones</text>
+
+  <!-- External services -->
+  <rect x="45" y="155" width="230" height="95" rx="14" class="card"/>
+  <circle cx="78" cy="191" r="18" fill="#e9f2ff" stroke="#2874c6" stroke-width="2"/>
+  <path d="M68 191h20M78 181c-8 8-8 12 0 20M78 181c8 8 8 12 0 20" fill="none" stroke="#2874c6" stroke-width="1.7"/>
+  <text x="106" y="188" class="label">Web users</text>
+  <text x="106" y="212" class="detail">HTTP :80</text>
+
+  <rect x="45" y="285" width="230" height="100" rx="14" class="card"/>
+  <rect x="65" y="307" width="36" height="36" rx="7" fill="#fff3e8" stroke="#dc7c24" stroke-width="2"/>
+  <text x="83" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#b76312">53</text>
+  <text x="114" y="322" class="label">Amazon Route 53</text>
+  <text x="114" y="346" class="detail">phonebook.halitcloud.com</text>
+  <text x="65" y="369" class="tiny">Alias record points to the ALB</text>
+
+  <rect x="45" y="485" width="230" height="100" rx="14" class="card"/>
+  <rect x="65" y="509" width="38" height="36" rx="7" fill="#f1eafe" stroke="#8154b8" stroke-width="2"/>
+  <path d="M74 519h20v16H74zM78 515v-4h12v4" fill="none" stroke="#8154b8" stroke-width="2"/>
+  <text x="115" y="520" class="label">GitHub repository</text>
+  <text x="115" y="544" class="detail">App source cloned at boot</text>
+  <text x="65" y="569" class="tiny">Token retrieved from Parameter Store</text>
+
+  <rect x="45" y="635" width="230" height="120" rx="14" class="card"/>
+  <rect x="65" y="659" width="38" height="38" rx="7" fill="#f1eafe" stroke="#8154b8" stroke-width="2"/>
+  <path d="M75 669h18v18H75zM79 665h10M79 691h10" fill="none" stroke="#8154b8" stroke-width="2"/>
+  <text x="115" y="674" class="label">AWS Systems Manager</text>
+  <text x="115" y="698" class="detail">Parameter Store</text>
+  <text x="65" y="728" class="tiny">Encrypted GitHub token parameter</text>
+
+  <!-- VPC boundary -->
+  <rect x="315" y="125" width="1440" height="950" rx="22" fill="#fff" stroke="#62748a" stroke-width="3"/>
+  <rect x="315" y="125" width="1440" height="60" rx="20" fill="#eaf0f8"/>
+  <path d="M315 165h1440" stroke="#62748a" stroke-width="2"/>
+  <text x="345" y="163" class="section">AWS VPC - 10.0.0.0/16</text>
+  <text x="1718" y="161" text-anchor="end" class="detail">Internet gateway attached</text>
+
+  <!-- Internet gateway / route -->
+  <rect x="825" y="195" width="360" height="64" rx="14" fill="#fff7e8" stroke="#dc7c24" stroke-width="2"/>
+  <circle cx="859" cy="227" r="16" fill="#fff" stroke="#dc7c24" stroke-width="2"/>
+  <path d="M849 227h20M859 217c-7 7-7 13 0 20M859 217c7 7 7 13 0 20" fill="none" stroke="#dc7c24" stroke-width="1.6"/>
+  <text x="888" y="223" class="label">Internet Gateway</text>
+  <text x="888" y="243" class="tiny">Public route: 0.0.0.0/0</text>
+
+  <!-- ALB -->
+  <rect x="590" y="280" width="840" height="100" rx="16" fill="#fff6eb" stroke="#dc7c24" stroke-width="2.5"/>
+  <rect x="615" y="300" width="48" height="48" rx="10" fill="#ffead5" stroke="#dc7c24" stroke-width="2"/>
+  <path d="M626 312h26M626 324h26M626 336h26M633 306v36M645 306v36" stroke="#dc7c24" stroke-width="2"/>
+  <text x="684" y="313" class="label">Application Load Balancer</text>
+  <text x="684" y="339" class="detail">HTTP listener :80 | Target group: phonebook-tgt-group</text>
+  <text x="684" y="362" class="tiny">Internet-facing across the 3 public subnets</text>
+  <rect x="1265" y="301" width="140" height="50" rx="10" fill="#fff" stroke="#e4b780"/>
+  <text x="1335" y="322" text-anchor="middle" class="tiny">ALB security group</text>
+  <text x="1335" y="341" text-anchor="middle" class="tiny">Inbound TCP :80</text>
+
+  <!-- AZ group headers -->
+  <text x="536" y="420" text-anchor="middle" class="label">Availability Zone us-east-1a</text>
+  <text x="1015" y="420" text-anchor="middle" class="label">Availability Zone us-east-1b</text>
+  <text x="1494" y="420" text-anchor="middle" class="label">Availability Zone us-east-1c</text>
+
+  <!-- Public subnet cards -->
+  <rect x="345" y="438" width="382" height="240" rx="16" fill="#eef7ff" stroke="#8eb8e5" stroke-width="2"/>
+  <text x="366" y="468" class="section">Public subnet 10.0.10.0/24</text>
+  <text x="366" y="490" class="tiny">Public IP assignment enabled</text>
+  <rect x="385" y="514" width="302" height="127" rx="13" class="card"/>
+  <rect x="403" y="536" width="42" height="42" rx="8" fill="#e8f2ff" stroke="#2874c6" stroke-width="2"/>
+  <path d="M410 548h28v18h-28zM415 571h18M424 566v5" fill="none" stroke="#2874c6" stroke-width="2"/>
+  <text x="461" y="543" class="label">Amazon EC2</text>
+  <text x="461" y="565" class="detail">Amazon Linux 2023</text>
+  <text x="403" y="601" class="detail">Flask phonebook app</text>
+  <text x="403" y="623" class="tiny">Auto Scaling Group member</text>
+
+  <rect x="824" y="438" width="382" height="240" rx="16" fill="#eef7ff" stroke="#8eb8e5" stroke-width="2"/>
+  <text x="845" y="468" class="section">Public subnet 10.0.11.0/24</text>
+  <text x="845" y="490" class="tiny">Public IP assignment enabled</text>
+  <rect x="864" y="514" width="302" height="127" rx="13" class="card"/>
+  <rect x="882" y="536" width="42" height="42" rx="8" fill="#e8f2ff" stroke="#2874c6" stroke-width="2"/>
+  <path d="M889 548h28v18h-28zM894 571h18M903 566v5" fill="none" stroke="#2874c6" stroke-width="2"/>
+  <text x="940" y="543" class="label">Amazon EC2</text>
+  <text x="940" y="565" class="detail">Amazon Linux 2023</text>
+  <text x="882" y="601" class="detail">Flask phonebook app</text>
+  <text x="882" y="623" class="tiny">Auto Scaling Group member</text>
+
+  <rect x="1303" y="438" width="382" height="240" rx="16" fill="#eef7ff" stroke="#8eb8e5" stroke-width="2"/>
+  <text x="1324" y="468" class="section">Public subnet 10.0.12.0/24</text>
+  <text x="1324" y="490" class="tiny">Public IP assignment enabled</text>
+  <rect x="1343" y="514" width="302" height="127" rx="13" class="card"/>
+  <rect x="1361" y="536" width="42" height="42" rx="8" fill="#e8f2ff" stroke="#2874c6" stroke-width="2"/>
+  <path d="M1368 548h28v18h-28zM1373 571h18M1382 566v5" fill="none" stroke="#2874c6" stroke-width="2"/>
+  <text x="1419" y="543" class="label">Amazon EC2</text>
+  <text x="1419" y="565" class="detail">Amazon Linux 2023</text>
+  <text x="1361" y="601" class="detail">Flask phonebook app</text>
+  <text x="1361" y="623" class="tiny">Auto Scaling Group member</text>
+
+  <!-- Auto Scaling group boundary -->
+  <rect x="365" y="500" width="1300" height="165" rx="22" fill="none" stroke="#2874c6" stroke-width="2.5" stroke-dasharray="10 7"/>
+  <rect x="389" y="648" width="540" height="42" rx="12" fill="#fff" stroke="#8eb8e5"/>
+  <text x="407" y="674" class="label">EC2 Auto Scaling Group</text>
+  <text x="624" y="674" class="detail">min 1 | desired 2 | max 3 | predictive CPU policy</text>
+
+  <!-- Private subnets / DB subnet group -->
+  <rect x="345" y="716" width="382" height="223" rx="16" fill="#f2f8f2" stroke="#99c7a6" stroke-width="2"/>
+  <text x="366" y="747" class="section">Private subnet 10.0.20.0/24</text>
+  <text x="366" y="770" class="tiny">DB subnet group member</text>
+  <rect x="824" y="716" width="382" height="223" rx="16" fill="#f2f8f2" stroke="#99c7a6" stroke-width="2"/>
+  <text x="845" y="747" class="section">Private subnet 10.0.21.0/24</text>
+  <text x="845" y="770" class="tiny">DB subnet group member</text>
+  <rect x="1303" y="716" width="382" height="223" rx="16" fill="#f2f8f2" stroke="#99c7a6" stroke-width="2"/>
+  <text x="1324" y="747" class="section">Private subnet 10.0.22.0/24</text>
+  <text x="1324" y="770" class="tiny">DB subnet group member</text>
+
+  <rect x="846" y="792" width="338" height="118" rx="14" fill="#fff" stroke="#4c9b68" stroke-width="2.5"/>
+  <ellipse cx="881" cy="823" rx="19" ry="8" fill="#e9f5ec" stroke="#4c9b68" stroke-width="2"/>
+  <path d="M862 823v33c0 11 38 11 38 0v-33M862 839c0 11 38 11 38 0" fill="none" stroke="#4c9b68" stroke-width="2"/>
+  <text x="915" y="820" class="label">Amazon RDS for MySQL</text>
+  <text x="915" y="842" class="detail">MySQL 8.4 | db.t3.micro</text>
+  <text x="867" y="878" class="tiny">Private | Single-AZ | TCP :3306 from web SG</text>
+  <text x="867" y="898" class="tiny">DB subnet group spans all 3 private subnets</text>
+
+  <!-- Route tables and notes -->
+  <rect x="345" y="965" width="650" height="76" rx="13" fill="#f7f9fc" stroke="#b9c4d2" stroke-width="1.5"/>
+  <text x="367" y="993" class="label">Public route table</text>
+  <text x="367" y="1018" class="detail">Associated with public subnets - default route to Internet Gateway</text>
+  <rect x="1015" y="965" width="670" height="76" rx="13" fill="#f7f9fc" stroke="#b9c4d2" stroke-width="1.5"/>
+  <text x="1037" y="993" class="label">Private route table</text>
+  <text x="1037" y="1018" class="detail">Associated with private subnets - no NAT gateway or default route defined</text>
+
+  <!-- Flows -->
+  <path d="M160 250v35" class="flow"/>
+  <path d="M275 334h194v-13h121" class="flow"/>
+  <text x="338" y="311" class="tiny">DNS alias</text>
+  <path d="M160 250h150v-33h515" class="flow"/>
+  <text x="361" y="207" class="tiny">HTTP :80</text>
+  <path d="M1005 259v21" class="route"/>
+  <path d="M1008 380v40H535v94" class="flow"/>
+  <path d="M1010 420v94" class="flow"/>
+  <path d="M1012 420h480v94" class="flow"/>
+  <text x="1022" y="408" class="tiny">ALB forwards HTTP to healthy targets</text>
+
+  <path d="M535 641v108h311" class="data"/>
+  <path d="M1015 641v151" class="data"/>
+  <path d="M1494 641v108h-310" class="data"/>
+  <text x="724" y="738" class="tiny">MySQL :3306</text>
+
+  <path d="M275 536h60v-15h20" class="control"/>
+  <text x="282" y="515" class="tiny">Git clone</text>
+  <path d="M275 685h78v-60h32" class="control"/>
+  <text x="282" y="673" class="tiny">GetParameter</text>
+
+  <!-- IAM and launch template -->
+  <rect x="45" y="835" width="230" height="135" rx="14" fill="#f8f3ff" stroke="#a988d0" stroke-width="2"/>
+  <path d="M68 870l20-12 20 12v23c0 15-12 25-20 29-8-4-20-14-20-29z" fill="#efe5fb" stroke="#8154b8" stroke-width="2"/>
+  <path d="M79 883h18M88 874v18" stroke="#8154b8" stroke-width="2"/>
+  <text x="119" y="873" class="label">IAM instance role</text>
+  <text x="119" y="898" class="detail">EC2 instance profile</text>
+  <text x="65" y="938" class="tiny">ssm:GetParameter permission</text>
+  <path d="M275 892h52v-201h60" class="control"/>
+
+  <!-- Security group callouts -->
+  <rect x="45" y="1000" width="230" height="103" rx="14" fill="#fff9ee" stroke="#e4b780" stroke-width="1.5"/>
+  <text x="63" y="1027" class="label">Security group paths</text>
+  <text x="63" y="1051" class="tiny">Internet to ALB: TCP :80</text>
+  <text x="63" y="1072" class="tiny">ALB to EC2: TCP :80</text>
+  <text x="63" y="1093" class="tiny">EC2 to RDS: TCP :3306</text>
+  <path d="M275 1049h38v-763h277" class="route"/>
+
+  <!-- Legend -->
+  <rect x="1330" y="1090" width="425" height="79" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <path d="M1352 1115h55" class="flow"/>
+  <text x="1420" y="1120" class="tiny">User / application traffic</text>
+  <path d="M1352 1142h55" class="data"/>
+  <text x="1420" y="1147" class="tiny">Database traffic</text>
+  <path d="M1570 1115h55" class="control"/>
+  <text x="1638" y="1120" class="tiny">Bootstrap / IAM access</text>
+  <path d="M1570 1142h55" class="route"/>
+  <text x="1638" y="1147" class="tiny">Network routing</text>
+</svg>

@@ -1,5 +1,5 @@
 resource "aws_route53_record" "my_record" {
-  zone_id = var.hosted_zone_name.id
+  zone_id = data.aws_route53_zone.my_zone.zone_id
   name    = "phonebook.${var.hosted_zone_name}"
   type    = "A"
 
