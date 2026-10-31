@@ -22,3 +22,6 @@ variable "git_token_parameter" {
 variable "instance_type" {
   default = "t3.small"
 }
+variable "hosted_zone_name" {
+  default = "halitcloud.com"
+}
