@@ -19,7 +19,9 @@ resource "aws_launch_template" "my_launch_template" {
               git clone https://$TOKEN@github.com/HalitCam/phonebook-application-aws-deployment-using-terraform.git
               unset TOKEN
               cd /home/ec2-user/phonebook-application-aws-deployment-using-terraform
-              export MYSQL_DATABASE_HOST=${aws_db_instance.my_db_instance.address}
+              echo 'export MYSQL_DATABASE_HOST="${aws_db_instance.my_db_instance.address}"' > /etc/profile.d/mysql.sh
+              chmod +x /etc/profile.d/mysql.sh
+              ./etc/profile.d/mysql.sh
               python3 phonebook-app.py
               EOF
   )
