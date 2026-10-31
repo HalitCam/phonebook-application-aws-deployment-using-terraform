@@ -21,7 +21,7 @@ resource "aws_launch_template" "my_launch_template" {
               cd /home/ec2-user/phonebook-application-aws-deployment-using-terraform
               echo 'export MYSQL_DATABASE_HOST="${aws_db_instance.my_db_instance.address}"' > /etc/profile.d/mysql.sh
               chmod +x /etc/profile.d/mysql.sh
-              ./etc/profile.d/mysql.sh
+              . /etc/profile.d/mysql.sh
               python3 phonebook-app.py
               EOF
   )
