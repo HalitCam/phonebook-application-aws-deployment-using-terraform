@@ -16,6 +16,6 @@ resource "aws_alb_listener" "my_alb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.my_alb_target_group.arn
+    target_group_arn = aws_lb_target_group.my_alb_target_group.arn
   }
 }

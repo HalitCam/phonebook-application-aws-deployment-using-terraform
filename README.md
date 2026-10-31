@@ -1,4 +1,4 @@
-# Project-202 : Phonebook Application (Python Flask) deployed on AWS Application Load Balancer with Auto Scaling and Relational Database Service using Terraform
+# Project: Phonebook Application (Python Flask) deployed on AWS Application Load Balancer with Auto Scaling and Relational Database Service using Terraform
 
 ## Description
 
@@ -6,7 +6,7 @@ The Phonebook Application aims to create a phonebook application in Python and d
 
 ## Problem Statement
 
-![Project_002](tf-phonebook.png)
+![Project](tf-phonebook.png)
 
 - Your company has recently started a project that aims to serve as phonebook web application. You and your colleagues have started to work on the project. Your teammates have developed the UI part the project as shown in the template folder and develop the coding part and they need your help to deploying the app in development environment.
 
@@ -98,7 +98,7 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
     - deploy the application on Flask Server.
 
-  - EC2 Instances type can be configured as `t2.micro`.
+  - EC2 Instances type can be configured as `t3.small`.
 
   - Instance launched by Terraform should be tagged `Web Server of Phonebook App`
 
@@ -184,7 +184,7 @@ thousand                         Warning -> 'Invalid input: Phone number should 
 
 ## Steps to Solution
   
-- Step 1: Download or clone project definition from `clarusway` repo on Github 
+- Step 1: Download or clone project definition from repo on Github 
 
 - Step 2: Create project folder for local public repo on your pc
 

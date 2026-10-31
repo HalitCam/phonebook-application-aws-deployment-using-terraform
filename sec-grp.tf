@@ -23,10 +23,10 @@ resource "aws_security_group" "my_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    security_groups =[aws_security_group.my_alb_sg.id]   
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.my_alb_sg.id]
   }
   egress {
     from_port   = 0
@@ -37,18 +37,18 @@ resource "aws_security_group" "my_web_sg" {
 }
 
 
-resource "aws_security_group" "my_db_sg" {
-  name        = "${var.project_name}-dbsg"
+resource "aws_security_group" "my_rds_sg" {
+  name        = "${var.project_name}-rds-sg"
   description = "Database security group for ${var.project_name}"
   vpc_id      = aws_vpc.my_vpc.id
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    security_groups =[aws_security_group.my_web_sg.id]   
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.my_web_sg.id]
   }
- egress {
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
