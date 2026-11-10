@@ -14,14 +14,13 @@ variable "key_name" {
   default = "halit-key"
 }
 
-variable "git_token_parameter" {
-  description = "Git token"
-  default     = "/phonebook/github/token"
-}
-
 variable "instance_type" {
   default = "t3.small"
 }
 variable "hosted_zone_name" {
   default = "halitcloud.com"
+}
+variable "git_token_parameter" {
+  description = "Git token"
+  default     = "/phonebook/github/token"
 }
